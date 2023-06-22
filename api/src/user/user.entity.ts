@@ -10,15 +10,20 @@ import {
     @PrimaryGeneratedColumn()
     public id: number;
   
-    @Column()
+    @Column({ type: 'varchar', length: 300 })
     public username: string;
-    @Column()
+    @Column({ type: 'varchar', length: 300 ,unique: true })
     public email: string;
     @Column()
     public password: string;
+
+    @Column({ type: 'boolean', default: false })
+    isAdmin: boolean;
   
     @CreateDateColumn()
     createdAt: Date;
+
+    
   }
   
   export default User;
