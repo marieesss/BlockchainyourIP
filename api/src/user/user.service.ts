@@ -5,9 +5,9 @@ import User from './user.entity';
 import { CreateUserDto } from './user.controller';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Injectable } from '@nestjs/common';
 
-
-
+@Injectable()
 export class UserService {
   saltOrRounds = 10;
 
