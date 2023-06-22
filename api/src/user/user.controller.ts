@@ -24,8 +24,14 @@ export class UserController {
   }
 
   @Post()
-  async createUser(@Body() userData: CreateUserDto) {
-    const newUser = await this.UserService.createUser(userData);
+  async createUser(@Body() CreateUserDto: CreateUserDto) {
+    const newUser = await this.UserService.createUser(CreateUserDto);
     return newUser;
+  }
+
+  @Post('connexion')
+  async Connexion(@Body() CreateUserDto: CreateUserDto) {
+    const connexion = await this.UserService.login(CreateUserDto.email, CreateUserDto.password);
+    return connexion;
   }
 }
