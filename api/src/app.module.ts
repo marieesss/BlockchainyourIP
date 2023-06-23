@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import * as Joi from '@hapi/joi';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as Joi from 'joi';
 import { DatabaseModule } from './database/database.module';
 import { userModule } from './user/user.module';
 import { GuidesModule } from './guides/guide.module';
+import { AuthGuard, AdminGuard } from './Auth.service';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,13 +18,14 @@ import { GuidesModule } from './guides/guide.module';
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_DB: Joi.string().required(),
         PORT: Joi.number(),
+        JWT_SECRET: Joi.string().required()
       }),
     }),
     DatabaseModule,
     userModule,
-    GuidesModule,
+    GuidesModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthGuard, AdminGuard,ConfigService],
 })
 export class AppModule {}
