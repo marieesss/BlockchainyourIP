@@ -35,7 +35,6 @@ export class UserService {
   }
 
   async createUser(CreateUserDto: CreateUserDto) {
-    console.log(CreateUserDto.password)
     const hashPassword = await bcrypt.hash(CreateUserDto.password, this.saltOrRounds);
     const data = {
       email: CreateUserDto.email,

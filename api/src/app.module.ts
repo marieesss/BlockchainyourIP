@@ -7,6 +7,7 @@ import { DatabaseModule } from './database/database.module';
 import { userModule } from './user/user.module';
 import { GuidesModule } from './guides/guide.module';
 import { AuthGuard, AdminGuard } from './Auth.service';
+import { FormationModule } from './formation/formation.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { AuthGuard, AdminGuard } from './Auth.service';
     }),
     DatabaseModule,
     userModule,
-    GuidesModule
+    GuidesModule,
+    FormationModule
   ],
   controllers: [AppController],
   providers: [AppService, AuthGuard, AdminGuard,ConfigService],
