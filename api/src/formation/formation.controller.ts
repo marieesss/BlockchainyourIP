@@ -1,9 +1,5 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { FormationService } from './formation.service';
-import { Request, Response } from 'express';
-import Formation from 'src/formation/formation.entity';
-import Guide from 'src/guides/guide.entity';
-import RelationGuidesFormations from 'src/relation/relationAttendeesFormation';
 
 export class CreateFormationDto {
     name: string;
@@ -12,31 +8,41 @@ export class CreateFormationDto {
     guide:[];
   }
 
-  export class subscribeFormation{
-    name: string;
-    date: string;
-    instructor: string;
-    guide:[];
-  }
 
 @Controller('formation')
 class FormationController {
     constructor(private readonly FormationService: FormationService) {}
+    // create a new formation
     @Post('/')
     async createFormation(@Body() CreateFormationDto: CreateFormationDto) {
-      const newUser = await this.FormationService.createFormationWithGuides(CreateFormationDto);
-      return newUser;
+      const newFormation = await this.FormationService.createFormationWithGuides(CreateFormationDto);
+      return newFormation;
     }
-    @Post('/inscription')
-    async createReservation(@Body() CreateFormationDto: CreateFormationDto) {
-      const newUser = await this.FormationService.createFormationWithGuides(CreateFormationDto);
-      return newUser;
+    // retrieve all formations
+    @Get('/')
+    async getFormations() {
+      const formation = await this.FormationService.getFormationsWithGuides();
+      return formation;
     }
-    @Put('/validation')
-    async validateFormation(@Body() validation: boolean) {
-      const newUser = await this.FormationService.createFormationWithGuides(validation);
-      return newUser;
+    // get one formation by id 
+    @Get('/:id')
+    async getFormationById(@Param('id') idFormation: number) {
+      const validateReservation = await this.FormationService.getFormationById(idFormation);
+      return validateReservation;
     }
+    // get all attendees by formation id
+    @Get('formationAttendees/:id')
+    async getFormationAttendees(@Param('id') idFormation: number) {
+      // const validateReservation = await this.FormationService.validateSubscribe();
+      // return validateReservation;
+    }
+        // get all formation attended by one user
+        @Get('formationAttendees/:id')
+        async getFormationUser(@Param('id') idFormation: number) {
+          // const validateReservation = await this.FormationService.validateSubscribe();
+          // return validateReservation;
+        }
+
 
 }
 

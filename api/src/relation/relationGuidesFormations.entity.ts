@@ -1,17 +1,19 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import Formation from 'src/formation/formation.entity';
 import Guide from 'src/guides/guide.entity';
 
 @Entity()
 class RelationGuidesFormations {
   @PrimaryGeneratedColumn()
-  public id: number;
+  id: number;
 
-  @ManyToOne(() => Formation, formation => formation.id)
-  public formation: number;
+  @ManyToOne(() => Formation, formation => formation.guides)
+  @JoinColumn({ name: 'formation_id' })
+  formation: Formation;
 
-  @ManyToOne(() => Guide, guide => guide.id)
-  public guide: number;
+  @ManyToOne(() => Guide, guide => guide.formations)
+  @JoinColumn({ name: 'guide_id' })
+  guide: Guide;
 }
 
 export default RelationGuidesFormations;

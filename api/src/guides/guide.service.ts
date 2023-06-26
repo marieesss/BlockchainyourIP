@@ -7,7 +7,6 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class GuideService {
-  saltOrRounds = 10;
 
   constructor(
     @InjectRepository(Guide)

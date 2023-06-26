@@ -5,13 +5,17 @@ import { FormationService } from './formation.service';
 import Guide from 'src/guides/guide.entity';
 import Formation from './formation.entity';
 import RelationGuidesFormations from 'src/relation/relationGuidesFormations.entity';
-
+import relationAttendeesFormation from 'src/relation/relationAttendeesFormation.entity';
+import User from 'src/user/user.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Guide]),
     TypeOrmModule.forFeature([Formation]),
-    TypeOrmModule.forFeature([RelationGuidesFormations])
+    TypeOrmModule.forFeature([RelationGuidesFormations]),
+    TypeOrmModule.forFeature([relationAttendeesFormation]),
+    TypeOrmModule.forFeature([User])
+
 
   ],
   controllers: [FormationController],
