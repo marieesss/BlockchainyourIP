@@ -28,11 +28,9 @@ export class AuthGuard implements CanActivate {
       const decodedToken = jwt.verify(token, this.configService.get('JWT_SECRET')) as JwtPayload;
 
       
-    console.log(decodedToken)
 
       return true;
     } catch (error) {
-        console.log(error)
       throw new UnauthorizedException('Invalid token');
       
     }
@@ -41,26 +39,57 @@ export class AuthGuard implements CanActivate {
 
  @Injectable()
  export class AdminGuard implements CanActivate {
-  constructor(private reflector: Reflector, private configService:ConfigService) {}
+  constructor(private configService:ConfigService) {}
   canActivate(context: ExecutionContext): boolean {
      const request = context.switchToHttp().getRequest();
  
      // Vérification de la présence du header Authorization
      const authorizationHeader = request.headers?.token;
+     if (!authorizationHeader){
+      throw new UnauthorizedException('no token');
+
+     }
      const token = authorizationHeader.replace('Bearer ', '');
  
      try {
        // Vérification de la validité du token en utilisant une clé secrète
        const decodedToken = jwt.verify(token, this.configService.get('JWT_SECRET')) as JwtPayload;
  
-       console.log(decodedToken.isAdmin) 
        return decodedToken.isAdmin
      } catch (error) {
-         console.log(error)
        throw new UnauthorizedException('Invalid token');
        
      }
    }
   }
 
+  @Injectable()
+  export class UserGuard implements CanActivate {
+    constructor(private configService: ConfigService) {}
+  
+    canActivate(context: ExecutionContext): boolean {
+      const request = context.switchToHttp().getRequest();
+      const id = Number(request.params.id);
+    
+      // Vérification de la présence du header Authorization
+      const authorizationHeader = request.headers?.token;
+      const token = authorizationHeader.replace('Bearer ', '');
+    
+      try {
+        // Vérification de la validité du token en utilisant une clé secrète
+        const decodedToken = jwt.verify(token, this.configService.get('JWT_SECRET')) as JwtPayload;
+        const decodedId = decodedToken.id;
+      console.log(id)
+      console.log(typeof id); // Affiche "string"
+      console.log(decodedId)
+      console.log(typeof decodedId); // Affiche "string"
 
+      
+      return decodedId===id
+
+      } catch (error) {
+        throw new UnauthorizedException('Invalid token');
+      }
+    }
+  }
+  

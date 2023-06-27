@@ -6,8 +6,9 @@ import * as Joi from 'joi';
 import { DatabaseModule } from './database/database.module';
 import { userModule } from './user/user.module';
 import { GuidesModule } from './guides/guide.module';
-import { AuthGuard, AdminGuard } from './Auth.service';
+import { AuthGuard, AdminGuard, UserGuard } from './Auth.service';
 import { FormationModule } from './formation/formation.module';
+import { AttendeesModule } from './attendees/attendees.module';
 
 @Module({
   imports: [
@@ -25,9 +26,10 @@ import { FormationModule } from './formation/formation.module';
     DatabaseModule,
     userModule,
     GuidesModule,
-    FormationModule
+    FormationModule,
+    AttendeesModule
   ],
   controllers: [AppController],
-  providers: [AppService, AuthGuard, AdminGuard,ConfigService],
+  providers: [AppService, AuthGuard, UserGuard, AdminGuard,ConfigService],
 })
 export class AppModule {}
