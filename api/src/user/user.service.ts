@@ -5,9 +5,9 @@ import User from './user.entity';
 import { CreateUserDto } from './user.controller';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { Injectable } from '@nestjs/common';
 
-
-
+@Injectable()
 export class UserService {
   saltOrRounds = 10;
 
@@ -35,7 +35,6 @@ export class UserService {
   }
 
   async createUser(CreateUserDto: CreateUserDto) {
-    console.log(CreateUserDto.password)
     const hashPassword = await bcrypt.hash(CreateUserDto.password, this.saltOrRounds);
     const data = {
       email: CreateUserDto.email,
@@ -63,10 +62,7 @@ export class UserService {
     const payload = { id: user.id, isAdmin: user.isAdmin };
     const { password, ...result } = user;
     
-        return {
-            access_token: this.jwtService.sign(payload),
-            result
-        };
+    return { ...result, access_token: this.jwtService.sign(payload) };
   }
   
 }
