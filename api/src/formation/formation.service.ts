@@ -44,6 +44,7 @@ export class FormationService {
     }
   }
 
+
 async getFormationsWithGuides(): Promise<Formation[]> {
   const formations = await this.formationRepository.createQueryBuilder('formation')
     .leftJoinAndSelect('formation.guides', 'guide')

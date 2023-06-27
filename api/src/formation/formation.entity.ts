@@ -21,10 +21,12 @@ export class Formation {
   @JoinTable({ name: 'formation_guide', joinColumn: { name: 'formation_id', referencedColumnName: 'id' }, inverseJoinColumn: { name: 'guide_id', referencedColumnName: 'id' } })
   guides: Guide[];
 
-  @ManyToMany(() => User, users => users.formations)
-  public users: User[];
+  @ManyToMany(() => User, user => user.formations)
+  @JoinTable({ name: 'relation_formation_attendees', joinColumn: { name: 'formation_id', referencedColumnName: 'id' }, inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' } })
+  users: User[];
 
   @CreateDateColumn()
   public createdAt: Date;
 }
+
 export default Formation;

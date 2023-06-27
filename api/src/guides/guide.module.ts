@@ -4,13 +4,16 @@ import { GuideService } from './guide.service';
 import Guide from './guide.entity';
 import { GuideController } from './guide.controller';
 import Formation from 'src/formation/formation.entity';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Guide]),
+  imports: [
+    ConfigModule,
+    TypeOrmModule.forFeature([Guide]),
   TypeOrmModule.forFeature([Formation])
 ],
   controllers: [GuideController],
-  providers: [GuideService],
+  providers: [GuideService, ConfigService],
 })
 export class GuidesModule {}

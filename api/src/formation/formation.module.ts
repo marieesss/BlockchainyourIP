@@ -7,9 +7,11 @@ import Formation from './formation.entity';
 import RelationGuidesFormations from 'src/relation/relationGuidesFormations.entity';
 import relationAttendeesFormation from 'src/relation/relationAttendeesFormation.entity';
 import User from 'src/user/user.entity';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forFeature([Guide]),
     TypeOrmModule.forFeature([Formation]),
     TypeOrmModule.forFeature([RelationGuidesFormations]),
@@ -19,6 +21,6 @@ import User from 'src/user/user.entity';
 
   ],
   controllers: [FormationController],
-  providers: [FormationService],
+  providers: [FormationService, ConfigService],
 })
 export class FormationModule {}

@@ -13,7 +13,7 @@ export class UserController {
   constructor(private readonly UserService: UserService) {}
 
   @Get()
-  @UseGuards(AuthGuard, AdminGuard)
+  @UseGuards(AdminGuard)
   async getAllUsers(): Promise<User[]> {
     const messages = await this.UserService.getAllUsers();
     return messages;
