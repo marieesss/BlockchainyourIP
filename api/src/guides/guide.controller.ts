@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import Guide from './guide.entity';
 import { GuideService } from './guide.service';
+import { AdminGuard } from 'src/Auth.service';
+
 export class CreateGuideDto {
     title: string;
     summary: string;
@@ -25,7 +27,8 @@ export class GuideController {
   }
 
   @Post()
-  async createUser(@Body() CreateUserDto: CreateGuideDto) {
+  @UseGuards(AdminGuard)
+  async createGuide(@Body() CreateUserDto: CreateGuideDto) {
     const newUser = await this.GuideService.createGuide(CreateUserDto);
     return newUser;
   }
