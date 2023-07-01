@@ -36,7 +36,9 @@ useEffect(() => {
         )) : null}
       </div>
       </div>
-
+{user.isadmin ? <button className="btn btn-primary position-absolute bottom-0 end-0 m-3">
+              Ajouter
+            </button> : null}
     </div>
   )
 }
