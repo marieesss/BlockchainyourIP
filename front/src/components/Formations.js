@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useContext } from 'react'
 import { UserContext } from '../useContext/UserContext'
 import RowFormation from './layout/rowFormation'
+import AddFormation from './addFomations'
 const Formations = () => {
 const [data, setData] = useState();
 const { user } = useContext(UserContext);
@@ -36,9 +37,11 @@ useEffect(() => {
         )) : null}
       </div>
       </div>
-{user.isadmin ? <button className="btn btn-primary position-absolute bottom-0 end-0 m-3">
-              Ajouter
-            </button> : null}
+      <div class="col-1">
+        {user !== null && user.isAdmin  ? (
+          <AddFormation/>
+        ) : null}
+      </div>
     </div>
   )
 }
