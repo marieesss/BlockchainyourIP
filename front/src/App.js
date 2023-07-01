@@ -31,9 +31,6 @@ const App = () => {
             </Routes>
           </div>
             <div class="col-1">
-            <button className="btn btn-primary position-absolute bottom-0 end-0 m-3">
-              Ajouter
-            </button>
             </div>
         
         </div>
