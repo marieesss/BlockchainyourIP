@@ -62,7 +62,7 @@ export class UserService {
     const payload = { id: user.id, isAdmin: user.isAdmin };
     const { password, ...result } = user;
     
-    return { ...result, access_token: this.jwtService.sign(payload) };
+    return { ...result,access_token: this.jwtService.sign(payload) };
   }
   
 }

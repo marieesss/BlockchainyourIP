@@ -29,7 +29,7 @@ export class AttendeesService {
       const loadedFormation = await this.formationRepository.findOne({where :{ id: formation }}); 
       inscription.formation= loadedFormation
         // Charger les formations à partir des identifiants et les assigner à la formation
-        const loadedUser = await this.UserRepository.findOne({where :{ id: idUser }}); 
+        const loadedUser = await this.UserRepository.findOne({where :{ id: user }}); 
         inscription.user = loadedUser
       const savedInscrption= await this.relationAttendeeRepository.create(inscription)
       await this.relationAttendeeRepository.save(savedInscrption)
@@ -42,11 +42,11 @@ export class AttendeesService {
   }
 
 
-  async validateSubscribe(idReservation) {
+  async validateSubscribe(idReservation, motivation) {
     try {
       const reservation= await this.relationAttendeeRepository.findOne({where :{ id: idReservation }});
-      const update = await this.relationAttendeeRepository.save({...reservation, valide :true})
-    return update
+      const update = await this.relationAttendeeRepository.save({...reservation, valide :true, motivation:motivation})
+      return update
     } catch (error) {
       throw error
     }   

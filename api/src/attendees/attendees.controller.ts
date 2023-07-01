@@ -18,8 +18,8 @@ export class AttendeesController {
     //validate the reservation, valide value turns to true
     @Put('/:idReservation/:id')
     @UseGuards(UserGuard)
-    async validateFormation(@Param('idReservation') idReservation: number, @Param('id') idUser: number) {
-      const validateReservation = await this.attendeesService.validateSubscribe(idReservation );
+    async validateFormation(@Param('idReservation') idReservation: number, @Param('id') idUser: number, @Body('motivation') motivation: string) {
+      const validateReservation = await this.attendeesService.validateSubscribe(idReservation, motivation);
       return validateReservation;
     }
 
