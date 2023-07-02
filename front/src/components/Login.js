@@ -25,7 +25,8 @@ const Login = () => {
         username: res.data.username,
         email: res.data.email,
         id: res.data.id,
-        token: res.data.access_token
+        token: res.data.access_token,
+        isAdmin: res.data.isAdmin
       };
   
       // Dispatch de l'action de connexion avec les informations de l'utilisateur connecté
@@ -39,6 +40,7 @@ const Login = () => {
   };
   
   const handleClick = (e) => {
+    e.preventDefault();
     handleLogin();
   
     // Si l'utilisateur est connecté, naviguer vers la page "Welcome"
