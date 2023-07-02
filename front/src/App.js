@@ -13,7 +13,7 @@ import Formations from './components/Formations';
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="overflow-hidden">
+      <div>
         <Header />
         <div className="row justify-content-center layout">
           <div className="col-2">
