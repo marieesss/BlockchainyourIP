@@ -7,9 +7,8 @@ import Header from './components/layout/Header';
 import Home from './components/Home';
 import Login from './components/Login';
 import Inscription from './components/Inscription';
-import Guides from './components/Guides';
-import Formations from './components/Formations';
-
+import Guides from './components/guides/Guides';
+import Formations from './components/formations/Formations';
 const App = () => {
   return (
     <BrowserRouter>
