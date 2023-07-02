@@ -26,12 +26,11 @@ const AddGuide = () => {
     };
 
     const handleCreate = async (e) => {
-      e.preventDefault();
         const newFormation = {
             author: auteur,
             title: titre,
             summary: résumé,
-            rate: note,
+            rating: note,
         }
     
        try {
