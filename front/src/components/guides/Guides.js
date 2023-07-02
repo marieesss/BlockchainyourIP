@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import RowGuide from './layout/rowGuide';
+import RowGuide from './rowGuide';
+import { UserContext } from '../../useContext/UserContext';
+import { useContext } from 'react'
+
+import AddGuide from './AddGuide';
 const Guides = () => {
   const [data, setData] = useState([]);
   const [details, setDetails] = useState(null);
+  const { user } = useContext(UserContext);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,10 +33,13 @@ const Guides = () => {
     <div className="row justify-content-center">
       <div className="col-8">
         {data.map((guide) => (
-          <div key={guide.id} onClick={() => handleGuideClick(guide)}>
+          <div class="mb-2" key={guide.id} onClick={() => handleGuideClick(guide)}>
             <RowGuide title={guide.title} />
           </div>
         ))}
+        {user !== null && user.isAdmin  ? (
+          <AddGuide/>
+        ) : null}
       </div>
       <div className="col-4">
         {details && <div>{details.title}</div>}

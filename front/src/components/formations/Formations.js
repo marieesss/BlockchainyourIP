@@ -3,8 +3,8 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useContext } from 'react'
-import { UserContext } from '../useContext/UserContext'
-import RowFormation from './layout/rowFormation'
+import { UserContext } from '../../useContext/UserContext'
+import RowFormation from './rowFormation'
 import AddFormation from './addFomations'
 const Formations = () => {
 const [data, setData] = useState();

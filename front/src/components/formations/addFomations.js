@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useContext } from 'react'
-import { UserContext } from '../useContext/UserContext'
+import { UserContext } from '../../useContext/UserContext'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
