@@ -14,8 +14,10 @@ export class GuideService {
   ) {}
 
   async getAllGuides() {
-    const users = this.GuideRepository.find();
-    return users;
+    const guides = this.GuideRepository.createQueryBuilder('guides')
+    .leftJoinAndSelect('guides.formations', 'formation')
+    .getMany();
+    return guides;
   }
 
   async getGuideById(id: number) {
