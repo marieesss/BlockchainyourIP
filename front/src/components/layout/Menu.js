@@ -16,23 +16,23 @@ const Menu = () => {
   }
 
   return (
-    <div class="row justify-content-center bg-success menu">
-    <div class="col-10">
+    <div class="row justify-content-center bg-dark menu pt-5">
+    <div class="col-10 text-light">
     {user ? <div> Bienvenue {user.username}</div> :null}
     <Link to={`/guides`}>
-      <div>Guides</div>
+      <div class="link text-light">Guides</div>
       </Link>
       <Link to={`/formation`}>
-      <div>Formations</div>
+      <div class="link text-light">Formations</div>
       </Link>
-      <Link to={`/inscription`}>
-      <div>Inscription</div>
-      </Link>
-      <Link to={`/login`}>
-      <div>Connexion</div>
-      </Link>
+      { !user ? <Link to={`/inscription`}>
+      <div class="link text-light">Inscription</div>
+      </Link> : null}
+      { !user ? <Link to={`/login`}> 
+      <div class="link text-light">Connexion</div>
+      </Link> : null }
       {user ? <Calendrier/> : null}
-      {user ?<div onClick={handleClick}>Logout</div> :null}
+      {user ?<div onClick={handleClick} class="text-light">Logout</div> :null}
       </div>
 
     </div>

@@ -80,7 +80,7 @@ useEffect(() => {
 
   return (
     <div>
-    <button className="btn btn-primary w-100" onClick={openModal}>
+    <button className="btn btn-warning w-100" onClick={openModal}>
     Ajouter
   </button>
   <Modal show={showModal} onHide={handleCloseModal}>

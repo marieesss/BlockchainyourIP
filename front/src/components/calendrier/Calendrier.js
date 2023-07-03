@@ -39,7 +39,7 @@ const Calendrier = () => {
 
   return (
     <div>
-       <button className="btn btn-primary button-calendar" onClick={openModal}>
+       <button className="btn btn-warning button-calendar" onClick={openModal}>
               <p>Voir mes prochaines formations</p>
             </button>
 

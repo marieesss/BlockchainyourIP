@@ -55,11 +55,10 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
           motivation: motivation,
         },
         { headers: { token: `Bearer ${user.token}` } })
-        console.log(timer)
         setTimer(0);
         setMotivation("")
         handleCloseModal();
-        setMsg("Vous êtes bien inscrit(e) à la formation")
+        window.location.reload();
       } catch (error) {
         if(error.request.status === 403){
           setMsg("Pas les droits merci d'essayer de vous reconnecter")
@@ -139,11 +138,11 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
                 minLength={100}
               />
                <small>
-                {motivation.length}/300 caractères
+                {motivation.length}/100 caractères
               </small>
             </Form.Group>
             {Msg ? <div>{Msg} </div>:null}
-            <Button variant="primary" type="submit">
+            <Button variant="warning" type="submit">
               Envoyer
             </Button>
           </Form>

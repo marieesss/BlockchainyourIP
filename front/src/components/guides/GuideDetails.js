@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import "../../App.css"
 
 const GuideDetails = ({guide}) => {
   return (
-    <div>
-    <h2>Détails du guide </h2>
+    <div class="detail-guide">
+    <h2 class="text-center">Détails du guide </h2>
       <div> <h3 class="text-center">{guide.title} </h3></div>
       <div> {guide.summary} </div>
       <div> {guide.rating}/5 </div>
