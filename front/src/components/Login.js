@@ -18,7 +18,7 @@ const Login = () => {
       // Requête POST pour se connecter avec l'email et le mot de passe
       const res = await axios.post(`http://localhost:8080/users/connexion`, 
       { email, password });
-      console.log(res)
+
   
       // Création de l'utilisateur connecté avec les données de la réponse
       const loggedInUser = {
@@ -31,9 +31,9 @@ const Login = () => {
   
       // Dispatch de l'action de connexion avec les informations de l'utilisateur connecté
       dispatch({ type: 'LOGIN', payload: loggedInUser });
-      console.log(user)
+    
     } catch (error) {
-      console.log(error)
+      console.log("erreur")
       // Gestion des erreurs de connexion
       seterrorMsg(error.response.status);
     }

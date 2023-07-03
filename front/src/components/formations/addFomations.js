@@ -32,7 +32,6 @@ const openModal =  () => {
       return;
     }
     const updatedGuidesLinked = [...guidesLinked, selectedGuideId];
-    console.log(updatedGuidesLinked);
     setGuidesLinked(updatedGuidesLinked);
   };
 
@@ -40,7 +39,6 @@ const openModal =  () => {
 // supprime un des guides du tableau avant d'ajouter une formation
   const deleteGuide = (guideId) => {
     const updatedGuidesLinked = guidesLinked.filter((guide) => guide !== guideId);
-    console.log(updatedGuidesLinked);
     setGuidesLinked(updatedGuidesLinked);
   };
 
@@ -57,11 +55,10 @@ const openModal =  () => {
    try {
     const res = await axios.post('http://localhost:8080/formation', newFormation,
     { headers: { token: `Bearer ${user.token}` } });
-    console.log(res.data);
     handleCloseModal();
     
    } catch (error) {
-    console.log(error)
+    console.log("erreur")
    }
   }
   
@@ -72,8 +69,6 @@ useEffect(() => {
       try {
         const res = await axios.get('http://localhost:8080/guide');
         setGuides(res.data);
-        console.log(res.data);
-        console.log(user)
       } catch (error) {
         console.log('Erreur');
       }

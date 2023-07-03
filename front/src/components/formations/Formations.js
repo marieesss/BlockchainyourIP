@@ -18,8 +18,6 @@ useEffect(() => {
       try {
         const res = await axios.get('http://localhost:8080/formation');
         setData(res.data);
-        console.log(res.data);
-        console.log(user)
       } catch (error) {
         console.log('Erreur');
       }

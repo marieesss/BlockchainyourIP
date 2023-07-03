@@ -20,7 +20,6 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
   //ouvre le modal, crée l'inscription sans la motivation
   // timer de 3 minutes avant que le modal se ferme
   const openModal = async () => {
-    console.log(user)
     try {
       const res = await axios.post(
         'http://localhost:8080/attendees/' + user.id,
@@ -31,7 +30,6 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
         },
         { headers: { token: `Bearer ${user.token}` } }
       );
-      console.log(res.data);
       setDataInscription(res.data);
       setShowModal(true);
       setTimer(
@@ -40,7 +38,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
         }, 3 * 60 * 1000)
       );
     } catch (error) {
-      console.log(error);
+      console.log("erreur");
     }
   };
   

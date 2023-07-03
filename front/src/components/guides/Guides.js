@@ -17,7 +17,6 @@ const Guides = () => {
       try {
         const res = await axios.get('http://localhost:8080/guide');
         setData(res.data);
-        console.log(res.data);
       } catch (error) {
         console.log('Erreur');
       }

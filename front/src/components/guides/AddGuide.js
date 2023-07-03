@@ -38,10 +38,9 @@ const AddGuide = () => {
        try {
         const res = await axios.post('http://localhost:8080/guide', newFormation,
         { headers: { token: `Bearer ${user.token}` } });
-        console.log(res.data)
         
        } catch (error) {
-        console.log(error)
+        console.log("erreur")
        }
       }
       
