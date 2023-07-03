@@ -79,10 +79,6 @@ export class AuthGuard implements CanActivate {
         // Vérification de la validité du token en utilisant une clé secrète
         const decodedToken = jwt.verify(token, this.configService.get('JWT_SECRET')) as JwtPayload;
         const decodedId = decodedToken.id;
-      console.log(id)
-      console.log(typeof id); // Affiche "string"
-      console.log(decodedId)
-      console.log(typeof decodedId); // Affiche "string"
 
       
       return decodedId===id

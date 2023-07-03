@@ -37,7 +37,7 @@ export class FormationService {
       formation.guides = loadedGuides;
     
       const savedFormation = await this.formationRepository.save(formation);
-      console.log(savedFormation);
+
       return savedFormation;
     } catch (error) {
       throw error;
