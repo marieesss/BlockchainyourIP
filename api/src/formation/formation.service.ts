@@ -3,9 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import Formation from 'src/formation/formation.entity';
 import Guide from 'src/guides/guide.entity';
-import RelationGuidesFormations from 'src/relation/relationGuidesFormations.entity';
-import relationAttendeesFormation from 'src/relation/relationAttendeesFormation.entity';
-import User from 'src/user/user.entity';
 
 @Injectable()
 export class FormationService {
@@ -14,12 +11,6 @@ export class FormationService {
     private guideRepository: Repository<Guide>,
     @InjectRepository(Formation)
     private formationRepository: Repository<Formation>,
-    @InjectRepository(RelationGuidesFormations)
-    private relationRepository: Repository<RelationGuidesFormations>,
-    @InjectRepository(relationAttendeesFormation)
-    private relationAttendeeRepository: Repository<relationAttendeesFormation>,
-    @InjectRepository(User)
-    private UserRepository: Repository<User>,
   ) {}
 
   async createFormationWithGuides(createFormationDto): Promise<Formation> {
@@ -37,7 +28,7 @@ export class FormationService {
       formation.guides = loadedGuides;
     
       const savedFormation = await this.formationRepository.save(formation);
-      console.log(savedFormation);
+
       return savedFormation;
     } catch (error) {
       throw error;
@@ -45,6 +36,7 @@ export class FormationService {
   }
 
 
+  //récupérer toute les formations avec les guides 
 async getFormationsWithGuides(): Promise<Formation[]> {
   const formations = await this.formationRepository.createQueryBuilder('formation')
     .leftJoinAndSelect('formation.guides', 'guide')
@@ -53,6 +45,8 @@ async getFormationsWithGuides(): Promise<Formation[]> {
   return formations;
 }
 
+
+//avoir la formation par id
 async getFormationById(id): Promise<Formation> {
   const formation = await this.formationRepository.findOne({ where: { id }, relations: ['guides'] });
   return formation;

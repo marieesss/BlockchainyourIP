@@ -2,9 +2,11 @@ import React from 'react'
 
 const RowGuide = ({title}) => {
   return (
-    <div class="bg-success">
-      {title}
-    </div>
+    <div class="card">
+  <div class="card-body">
+  {title}
+  </div>
+</div>
   )
 }
 

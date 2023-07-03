@@ -24,8 +24,6 @@ const Inscription = () => {
   const [validMatch, setValidMatch] = useState(false);
 
   const [errMsg, setErrMsg] = useState('');
-  const [success, setSuccess] = useState(false);
-  const URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
       // Vérification si l'email est valide en utilisant une expression régulière
@@ -65,7 +63,7 @@ const Inscription = () => {
       } else {
         try {
           // Appel à l'API pour créer un compte utilisateur
-          const response = await axios.post(`http://localhost:3000/users`, {
+          const response = await axios.post(`http://localhost:8080/users`, {
             username,
             password,
             email,
@@ -98,63 +96,18 @@ const Inscription = () => {
     };
     
 
-    const handlePasswordClick = () => {
-      // Récupération de l'élément input pour le mot de passe
-      const pwd = document.getElementById('password');
-      // Récupération de l'élément icône pour le mot de passe
-      const icon = document.getElementById('icon');
-    
-      if (pwd.getAttribute("type") == "password") {
-        // Si le type d'attribut est "password", le mot de passe est masqué
-        pwd.setAttribute("type", "text");
-        // Changement de l'icône pour afficher une icône "eye slash" (mot de passe masqué)
-        icon.setAttribute("class", "fa-sharp fa-solid fa-eye-slash");
-      } else {
-        // Si le type d'attribut est différent de "password", le mot de passe est affiché
-        pwd.setAttribute("type", "password");
-        // Changement de l'icône pour afficher une icône "eye" (mot de passe visible)
-        icon.setAttribute("class", "fa-sharp fa-solid fa-eye");
-      }
-    };
-    
-    const handleConfirmPasswordClick = () => {
-      // Récupération de l'élément input pour la confirmation du mot de passe
-      const pwd = document.getElementById('confirm_pwd');
-      // Récupération de l'élément icône pour la confirmation du mot de passe
-      const icon = document.getElementById('icon-confirm');
-    
-      if (pwd.getAttribute("type") == "password") {
-        // Si le type d'attribut est "password", la confirmation du mot de passe est masquée
-        pwd.setAttribute("type", "text");
-        // Changement de l'icône pour afficher une icône "eye slash" (mot de passe masqué)
-        icon.setAttribute("class", "fa-sharp fa-solid fa-eye-slash");
-      } else {
-        // Si le type d'attribut est différent de "password", la confirmation du mot de passe est affichée
-        pwd.setAttribute("type", "password");
-        // Changement de l'icône pour afficher une icône "eye" (mot de passe visible)
-        icon.setAttribute("class", "fa-sharp fa-solid fa-eye");
-      }
-    };
-    
+  
   return (
       <div class="container-fluid p-0 overflow-hidden">
-      {success ? (
-          <section>
-              <h1>Success!</h1>
-              <p>
-                  <a href="#">Sign In</a>
-              </p>
-          </section>
-      ) : (
+
           <section class=" row justify-content-center">
-              <p  className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-              <center><h1> Inscription</h1></center>
-              <form onSubmit={handleSubmit} class="col-6">
+              <p>{errMsg}</p>
+            
+              <form onSubmit={handleSubmit} class="col-5">
+              <h1> Inscription</h1>
                   <label htmlFor="username">
                       Nom d'utilisateur
-                      <i class="fa-solid fa-check" style={{color: "white"}} className={validName ? "valid" : "hide"}></i>
-                      <i class="fa-solid fa-circle-xmark" style={{color: "#ff0000"}} className={validName || !username ? "hide" : "invalid"}></i>
-                  </label>
+                  </label><br/>
                   <input
                       type="text"
                       id="username"
@@ -162,12 +115,10 @@ const Inscription = () => {
                       onChange={(e) => setUsername(e.target.value)}
                       value={username}
                       required
-                      aria-invalid={validName ? "false" : "true"}
                       aria-describedby="uidnote"
                   />
                   {username && !validName ? 
                       <p className={"instructions"}>
-                  <i class="fa-solid fa-circle-info mx-2" style={{color: "white"}}></i>                       
                   3 à 24 caractères.<br />
                       Il doit être commencé par une lettre<br />
                       Lettres, chiffres, soulignés, traits d'union autorisés.
@@ -177,9 +128,7 @@ const Inscription = () => {
 
                   <label htmlFor="email">
                       Email:
-                      <i class="fa-solid fa-check" style={{color: "#ff000d"}} className={validName ? "valid" : "hide"}></i>
-                      <i class="fa-solid fa-circle-xmark" style={{color: "#ff0000"}} className={validName || !username ? "hide" : "invalid"}></i>
-                  </label>
+                  </label><br/>
                   <input
                       type="text"
                       id="email"
@@ -187,12 +136,9 @@ const Inscription = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       value={email}
                       required
-                      aria-invalid={validEmail ? "false" : "true"}
-                      aria-describedby="uidnote"
                   />
                   {email && !validEmail ?  
-                  <p id="uidnote" className={ "instructions"}>
-                  <i class="fa-solid fa-circle-info" style={{color: "white"}}></i>                       
+                  <p>
                       8 à 24 caractères.<br />
                       Il doit être commencé par une lettre<br />
                       Lettres, chiffres, soulignés, traits d'union autorisés.
@@ -203,8 +149,6 @@ const Inscription = () => {
 
                   <label htmlFor="password ">
                       Mot de passe :                        
-                      <i class="fa-solid fa-check" style={{color: "#ff000d"}} className={validName ? "valid" : "hide"}></i>
-                      <i class="fa-solid fa-circle-xmark" style={{color: "#ff0000"}} className={validName || !username ? "hide" : "invalid"}></i>
                   </label>
                   
                   <div class="pt-site-footer__submit">
@@ -214,17 +158,13 @@ const Inscription = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       value={password}
                       required
-                      aria-invalid={validPwd ? "false" : "true"}
-                      aria-describedby="pwdnote"
-                      class='input-mdp'
                       />
-                       <i id="icon" onClick={handlePasswordClick} class="fa-sharp fa-solid fa-eye button-mdp"></i>
+
                        </div>
                   
                   {
                       password && !validPwd ? 
-                      <p id="pwdnote" className={!validPwd ? "instructions" : "offscreen"}>
-                  <i class="fa-solid fa-circle-info" style={{color: "white"}}></i>                       
+                      <p>                  
                       8 à 24 caractères.<br />
                       Il doit inclure minuscule, majuscule, un chiffre et un caractère spécial<br />
                       caractères utilisés: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
@@ -234,9 +174,6 @@ const Inscription = () => {
                   }
                  
                   <label htmlFor="confirm_pwd">
-                      Confirmez votre mot de passe:
-                      <i class="fa-solid fa-check" style={{color: "#ff000d"}} className={validName ? "valid" : "hide"}></i>
-                      <i class="fa-solid fa-circle-xmark" style={{color: "#ff0000"}} className={validName || !username ? "hide" : "invalid"}></i>
                   </label>
                   <div class="pt-site-footer__submit">
                   <input
@@ -245,14 +182,13 @@ const Inscription = () => {
                       onChange={(e) => setMatchPwd(e.target.value)}
                       value={matchPwd}
                       required
-                      aria-invalid={validMatch ? "false" : "true"}
-                      aria-describedby="confirmnote"
+
                   />
-                    <i id="icon-confirm" onClick={handleConfirmPasswordClick} class="fa-sharp fa-solid fa-eye button-mdp"></i>
+                   
                     </div>
                   { !validMatch ? 
-                  <p id="confirmnote" className={!validMatch ? "instructions" : "offscreen"}>
-                  <i class="fa-solid fa-circle-info" style={{color: "white"}}></i>                       
+                  <p id="confirmnote" >
+                  
                   Doit correspondre au premier champ de saisie du mot de passe.
                   </p> 
                   : <div/>}
@@ -270,7 +206,6 @@ const Inscription = () => {
               </form>
              
           </section>
-      )}
   </div>
   )
 }

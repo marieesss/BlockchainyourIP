@@ -1,6 +1,6 @@
 import React from 'react'
 import { UserContext } from '../useContext/UserContext';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -16,29 +16,31 @@ const Login = () => {
   const handleLogin = async (e) => {
     try {
       // Requête POST pour se connecter avec l'email et le mot de passe
-      const res = await axios.post(`http://localhost:3000/users/connexion`, 
+      const res = await axios.post(`http://localhost:8080/users/connexion`, 
       { email, password });
-      console.log(res)
+
   
       // Création de l'utilisateur connecté avec les données de la réponse
       const loggedInUser = {
         username: res.data.username,
         email: res.data.email,
         id: res.data.id,
-        token: res.data.access_token
+        token: res.data.access_token,
+        isAdmin: res.data.isAdmin
       };
   
       // Dispatch de l'action de connexion avec les informations de l'utilisateur connecté
       dispatch({ type: 'LOGIN', payload: loggedInUser });
-      console.log(user)
+    
     } catch (error) {
-      console.log(error)
+      console.log("erreur")
       // Gestion des erreurs de connexion
       seterrorMsg(error.response.status);
     }
   };
   
   const handleClick = (e) => {
+    e.preventDefault();
     handleLogin();
   
     // Si l'utilisateur est connecté, naviguer vers la page "Welcome"

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReservationDTO } from './dto/create-attendee.dto';
-import relationAttendeesFormation from 'src/relation/relationAttendeesFormation.entity';
+import relationAttendeesFormation from 'src/attendees/entities/relationAttendeesFormation.entity';
 import Formation from 'src/formation/formation.entity';
 
 import User from 'src/user/user.entity';
@@ -42,9 +42,12 @@ export class AttendeesService {
   }
 
 
+  //modifie la reservation en la validant
   async validateSubscribe(idReservation, motivation) {
     try {
+      //trouve la reservation à partir des identifiants
       const reservation= await this.relationAttendeeRepository.findOne({where :{ id: idReservation }});
+      //modifie la reservation en la validant
       const update = await this.relationAttendeeRepository.save({...reservation, valide :true, motivation:motivation})
       return update
     } catch (error) {

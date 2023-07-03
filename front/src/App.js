@@ -1,25 +1,29 @@
 import React from 'react';
 import { Routes, Switch, Route } from 'react-router-dom';
 import { BrowserRouter} from 'react-router-dom';
+import { useContext } from 'react';
 
 import Menu from './components/layout/Menu';
 import Header from './components/layout/Header';
 import Home from './components/Home';
 import Login from './components/Login';
 import Inscription from './components/Inscription';
-import Guides from './components/Guides';
-import Formations from './components/Formations';
-
+import Guides from './components/guides/Guides';
+import Formations from './components/formations/Formations';
+import Calendrier from './components/calendrier/Calendrier';
+import { UserContext } from './useContext/UserContext';
 const App = () => {
+  const { user } = useContext(UserContext);
+
   return (
     <BrowserRouter>
-      <div className="overflow-hidden">
+      <div>
         <Header />
         <div className="row justify-content-center layout">
           <div className="col-2">
             <Menu />
           </div>
-          <div className="col-9">
+          <div className="col-10">
         
             <Routes>
             <Route path="/" element={<Home/>} />
@@ -30,8 +34,7 @@ const App = () => {
             <Route path="/formation" element={<Formations/>} />
             </Routes>
           </div>
-            <div class="col-1">
-            </div>
+
         
         </div>
       </div>

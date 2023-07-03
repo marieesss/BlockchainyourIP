@@ -14,9 +14,12 @@ export class GuideService {
   ) {}
 
   async getAllGuides() {
-    const users = this.GuideRepository.find();
-    return users;
+    const guides = this.GuideRepository.createQueryBuilder('guides')
+    .leftJoinAndSelect('guides.formations', 'formation')
+    .getMany();
+    return guides;
   }
+
 
   async getGuideById(id: number) {
     const user = await this.GuideRepository.findOne({
@@ -27,9 +30,11 @@ export class GuideService {
     if (user) {
       return user;
     }
-    throw new NotFoundException('Could not find the user');
+    throw new NotFoundException('Could not find the guide');
   }
 
+
+  //créer un guide
   async createGuide(createGuideDto: CreateGuideDto) {
     const { title, summary, author, rating } = createGuideDto;
     const newGuide = await this.GuideRepository.create({ title, summary, author, rating });

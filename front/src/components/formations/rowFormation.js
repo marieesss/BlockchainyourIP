@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState,  useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../useContext/UserContext';
 import Button from 'react-bootstrap/Button';
@@ -16,11 +16,13 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
   const { user } = useContext(UserContext);
   
 
+
+  //ouvre le modal, crée l'inscription sans la motivation
+  // timer de 3 minutes avant que le modal se ferme
   const openModal = async () => {
-    console.log(user)
     try {
       const res = await axios.post(
-        'http://localhost:3000/attendees/' + user.id,
+        'http://localhost:8080/attendees/' + user.id,
         {
           formation: id,
           motivation: '',
@@ -28,7 +30,6 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
         },
         { headers: { token: `Bearer ${user.token}` } }
       );
-      console.log(res.data);
       setDataInscription(res.data);
       setShowModal(true);
       setTimer(
@@ -37,29 +38,30 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
         }, 3 * 60 * 1000)
       );
     } catch (error) {
-      console.log(error);
+      console.log("erreur");
     }
   };
   
-
+// met le timer à 0 
   const handleCloseModal = () => {
     setShowModal(false);
     setTimer(0);
   };
 
+
+  // envoie la confirmation de l'inscription
   const handleSubmit = (event) => {
     event.preventDefault();
     if(motivation.length>0){
       try {
-        const res= axios.put(`http://localhost:3000/attendees/${dataInscription.id}/${user.id}`,{
+        const res= axios.put(`http://localhost:8080/attendees/${dataInscription.id}/${user.id}`,{
           motivation: motivation,
         },
         { headers: { token: `Bearer ${user.token}` } })
-        console.log(timer)
         setTimer(0);
         setMotivation("")
         handleCloseModal();
-        setMsg("Vous êtes bien inscrit(e) à la formation")
+        window.location.reload();
       } catch (error) {
         if(error.request.status === 403){
           setMsg("Pas les droits merci d'essayer de vous reconnecter")
@@ -77,10 +79,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
 
 }
 
-  useEffect(() => {
-    setTimer(0);
 
-  }, [timer]);
 
 
 
@@ -106,7 +105,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
         aria-labelledby={`header-${id}`}
         data-parent="#accordion"
       >
-        <div className="card-body">
+        <div className="card-body" id={id}>
           <ul>
             <li> Date : {date}</li>
             <li>Instructeur : {instructor}</li>
@@ -126,7 +125,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Votre motivation en trois minutes, secondes effectuées {timer}</Modal.Title>
+          <Modal.Title>Votre motivation en trois minutes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
@@ -139,11 +138,11 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
                 minLength={100}
               />
                <small>
-                {motivation.length}/300 caractères
+                {motivation.length}/100 caractères
               </small>
             </Form.Group>
             {Msg ? <div>{Msg} </div>:null}
-            <Button variant="primary" type="submit">
+            <Button variant="warning" type="submit">
               Envoyer
             </Button>
           </Form>
