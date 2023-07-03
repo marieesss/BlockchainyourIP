@@ -65,7 +65,7 @@ const Inscription = () => {
       } else {
         try {
           // Appel à l'API pour créer un compte utilisateur
-          const response = await axios.post(`http://localhost:3000/users`, {
+          const response = await axios.post(`http://localhost:8080/users`, {
             username,
             password,
             email,

@@ -20,7 +20,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
     console.log(user)
     try {
       const res = await axios.post(
-        'http://localhost:3000/attendees/' + user.id,
+        'http://localhost:8080/attendees/' + user.id,
         {
           formation: id,
           motivation: '',
@@ -51,7 +51,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
     event.preventDefault();
     if(motivation.length>0){
       try {
-        const res= axios.put(`http://localhost:3000/attendees/${dataInscription.id}/${user.id}`,{
+        const res= axios.put(`http://localhost:8080/attendees/${dataInscription.id}/${user.id}`,{
           motivation: motivation,
         },
         { headers: { token: `Bearer ${user.token}` } })
@@ -106,7 +106,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
         aria-labelledby={`header-${id}`}
         data-parent="#accordion"
       >
-        <div className="card-body">
+        <div className="card-body" id={id}>
           <ul>
             <li> Date : {date}</li>
             <li>Instructeur : {instructor}</li>

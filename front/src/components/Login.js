@@ -16,7 +16,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     try {
       // Requête POST pour se connecter avec l'email et le mot de passe
-      const res = await axios.post(`http://localhost:3000/users/connexion`, 
+      const res = await axios.post(`http://localhost:8080/users/connexion`, 
       { email, password });
       console.log(res)
   

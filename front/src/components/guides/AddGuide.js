@@ -34,7 +34,7 @@ const AddGuide = () => {
         }
     
        try {
-        const res = await axios.post('http://localhost:3000/guide', newFormation,
+        const res = await axios.post('http://localhost:8080/guide', newFormation,
         { headers: { token: `Bearer ${user.token}` } });
         console.log(res.data)
         

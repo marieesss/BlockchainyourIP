@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from '../../useContext/UserContext';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Calendrier from '../calendrier/Calendrier';
 
 const Menu = () => {
   const { user, dispatch } = useContext(UserContext);
@@ -15,7 +16,7 @@ const Menu = () => {
   }
 
   return (
-    <div class="row justify-content-center bg-success d-flex align-items-center menu">
+    <div class="row justify-content-center bg-success menu">
     <div class="col-10">
     {user ? <div> Bienvenue {user.username}</div> :null}
     <Link to={`/guides`}>
@@ -30,6 +31,7 @@ const Menu = () => {
       <Link to={`/login`}>
       <div>Connexion</div>
       </Link>
+      {user ? <Calendrier/> : null}
       {user ?<div onClick={handleClick}>Logout</div> :null}
       </div>
 

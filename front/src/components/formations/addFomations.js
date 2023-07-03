@@ -51,7 +51,7 @@ const openModal =  () => {
     }
 
    try {
-    const res = await axios.post('http://localhost:3000/formation', newFormation,
+    const res = await axios.post('http://localhost:8080/formation', newFormation,
     { headers: { token: `Bearer ${user.token}` } });
     console.log(res.data);
     handleCloseModal();
@@ -66,7 +66,7 @@ const openModal =  () => {
 useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/guide');
+        const res = await axios.get('http://localhost:8080/guide');
         setGuides(res.data);
         console.log(res.data);
         console.log(user)
@@ -80,7 +80,7 @@ useEffect(() => {
 
   return (
     <div>
-    <button className="btn btn-primary position-absolute bottom-0 end-0 m-3" onClick={openModal}>
+    <button className="btn btn-primary w-100" onClick={openModal}>
     Ajouter
   </button>
   <Modal show={showModal} onHide={handleCloseModal}>

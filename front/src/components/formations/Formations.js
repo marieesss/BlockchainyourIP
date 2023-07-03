@@ -17,7 +17,7 @@ const { user } = useContext(UserContext);
 useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/formation');
+        const res = await axios.get('http://localhost:8080/formation');
         setData(res.data);
         console.log(res.data);
         console.log(user)
@@ -73,12 +73,11 @@ const searchItemsDate = (searchValue) => {
         )) 
         : null}
       </div>
-      </div>
-      <div class="col-1">
-        {user !== null && user.isAdmin  ? (
+      {user !== null && user.isAdmin  ? (
           <AddFormation/>
         ) : null}
       </div>
+
     </div>
   )
 }
