@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState,  useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../useContext/UserContext';
 import Button from 'react-bootstrap/Button';
@@ -16,6 +16,9 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
   const { user } = useContext(UserContext);
   
 
+
+  //ouvre le modal, crée l'inscription sans la motivation
+  // timer de 3 minutes avant que le modal se ferme
   const openModal = async () => {
     console.log(user)
     try {
@@ -41,12 +44,14 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
     }
   };
   
-
+// met le timer à 0 
   const handleCloseModal = () => {
     setShowModal(false);
     setTimer(0);
   };
 
+
+  // envoie la confirmation de l'inscription
   const handleSubmit = (event) => {
     event.preventDefault();
     if(motivation.length>0){
@@ -76,10 +81,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
 
 }
 
-  useEffect(() => {
-    setTimer(0);
 
-  }, [timer]);
 
 
 
@@ -125,7 +127,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Votre motivation en trois minutes, secondes effectuées {timer}</Modal.Title>
+          <Modal.Title>Votre motivation en trois minutes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>

@@ -1,10 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 import { useState } from 'react'
-import { useEffect } from 'react'
 import { useContext } from 'react'
 import { UserContext } from '../../useContext/UserContext'
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
@@ -17,14 +15,18 @@ const AddGuide = () => {
     const [résumé, setRésumé] = useState();
     const [note, setNote] = useState();
 
+    //ouvre le modal
     const openModal =  () => {
         setShowModal(true);
     };
   
+    //ferme le modal
     const handleCloseModal = () => {
       setShowModal(false);
     };
 
+
+    //créer un guide
     const handleCreate = async (e) => {
         const newFormation = {
             author: auteur,

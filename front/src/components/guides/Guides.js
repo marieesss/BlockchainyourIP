@@ -11,7 +11,7 @@ const Guides = () => {
   const [details, setDetails] = useState(null);
   const { user } = useContext(UserContext);
 
-
+//recupère tout les guides
   useEffect(() => {
     const fetchData = async () => {
       try {

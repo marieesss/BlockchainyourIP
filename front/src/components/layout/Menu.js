@@ -9,7 +9,7 @@ const Menu = () => {
   const { user, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
 
-
+// appele la fonction pour se deconnecter
   const handleClick =()=>{
     dispatch({ type: 'LOGOUT' })
     navigate('/')

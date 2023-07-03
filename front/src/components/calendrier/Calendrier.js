@@ -22,6 +22,8 @@ const Calendrier = () => {
       setShowModal(false);
     };
 
+
+    // récupère toute les formations de l'utilisateur validées 
     useEffect(() => {
         const fetchData = async () => {
           try {

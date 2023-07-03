@@ -8,12 +8,11 @@ import RowFormation from './rowFormation'
 import AddFormation from './addFomations'
 const Formations = () => {
 const [data, setData] = useState();
-const [searchInput, setSearchInput] = useState();
 const [dataFiltre, setDataFiltre] = useState();
 
 const { user } = useContext(UserContext);
 
-
+//récupère toute les formations
 useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,8 +26,10 @@ useEffect(() => {
     };
 
     fetchData();
-}, []);
+});
 
+
+//filtre en fonction du nom
 const searchItemsName = (searchValue) => {
   if (searchValue !== '') { 
     const filteredData = data.filter((item) => {
@@ -40,6 +41,8 @@ const searchItemsName = (searchValue) => {
   }
 };
 
+
+// filtre en fonction de la date
 const searchItemsDate = (searchValue) => {
   if (searchValue !== '') { 
     const filteredData = data.filter((item) => {

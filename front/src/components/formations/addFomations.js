@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useContext } from 'react'
 import { UserContext } from '../../useContext/UserContext'
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
@@ -26,6 +25,7 @@ const openModal =  () => {
     setShowModal(false);
   };
 
+  //ajoute un guide au tableau avant de le créer 
   const changeGuides = (e) => {
     const selectedGuideId = parseInt(e.target.value);
     if (isNaN(selectedGuideId) || guidesLinked.includes(selectedGuideId)) {
@@ -36,12 +36,16 @@ const openModal =  () => {
     setGuidesLinked(updatedGuidesLinked);
   };
 
+  
+// supprime un des guides du tableau avant d'ajouter une formation
   const deleteGuide = (guideId) => {
     const updatedGuidesLinked = guidesLinked.filter((guide) => guide !== guideId);
     console.log(updatedGuidesLinked);
     setGuidesLinked(updatedGuidesLinked);
   };
 
+
+  //crée une formation
   const handleCreate = async (e) => {
     const newFormation = {
         instructor: instructor,
@@ -62,7 +66,7 @@ const openModal =  () => {
   }
   
 
-
+//recupere tout les guides
 useEffect(() => {
     const fetchData = async () => {
       try {
@@ -76,7 +80,7 @@ useEffect(() => {
     };
 
     fetchData();
-}, []);
+});
 
   return (
     <div>
