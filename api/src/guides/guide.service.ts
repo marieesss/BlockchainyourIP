@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import Guide from './guide.entity';
 import { CreateGuideDto } from './guide.controller';
 import { Injectable } from '@nestjs/common';
+const PDFDocument = require('pdfkit');
 
 @Injectable()
 export class GuideService {
@@ -41,5 +42,40 @@ export class GuideService {
     await this.GuideRepository.save(newGuide);
     return newGuide;
   }
+
+  async genererPDF(id: number)
+  {
+    const guide = await this.getGuideById(id);
+
+      const pdfBuffer: Buffer = await new Promise( resolve => {
+        const doc =  new PDFDocument(
+          {
+            size: "LETTER",
+            bufferPages: true
+          })
+
+          //todo
+          doc.fontSize(18).text(guide.title);
+          doc.fontSize(12).text(`Author: ${guide.author}`);
+          doc.fontSize(12).text(`Summary: ${guide.summary}`);
+          doc.fontSize(12).text(`Rating: ${guide.rating}`);
+
+
+          const buffer = []
+          doc.on('data', buffer.push.bind(buffer))
+          doc.on('end', () => {
+              const data = Buffer.concat(buffer)
+              resolve(data)
+          })
+          doc.end()
+
+
+      })
+
+      return {pdfBuffer, guide};
+    
+  }
+  
+  
   
 }
