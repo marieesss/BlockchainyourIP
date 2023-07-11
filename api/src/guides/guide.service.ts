@@ -23,13 +23,13 @@ export class GuideService {
 
 
   async getGuideById(id: number) {
-    const user = await this.GuideRepository.findOne({
-      where: {
-        id: id,
-      },
-    });
-    if (user) {
-      return user;
+    const guide = await this.GuideRepository.createQueryBuilder('guides')
+    .leftJoinAndSelect('guides.formations', 'formation')
+    .where('guides.id = :id', { id })
+    .getOne();
+
+    if (guide) {
+      return guide;
     }
     throw new NotFoundException('Could not find the guide');
   }
@@ -58,6 +58,14 @@ export class GuideService {
           doc.fontSize(12).text(`Author: ${guide.author}`);
           doc.fontSize(12).text(`Summary: ${guide.summary}`);
           doc.fontSize(12).text(`Rating: ${guide.rating}`);
+          doc.moveDown()
+          doc.fontSize(12).text('Formations:');
+
+          guide.formations.forEach((formation) => {
+            doc.text(['- ' + formation.name]);
+            doc.text(`date : ${formation.name}`);
+            doc.moveDown()
+          });
 
 
           const buffer = []
