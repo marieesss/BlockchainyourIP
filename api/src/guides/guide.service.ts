@@ -54,7 +54,6 @@ export class GuideService {
             bufferPages: true
           })
 
-          //todo
           doc.fontSize(18).text(guide.title);
           doc.fontSize(12).text(`Author: ${guide.author}`);
           doc.fontSize(12).text(`Summary: ${guide.summary}`);

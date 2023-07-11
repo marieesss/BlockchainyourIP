@@ -11,29 +11,32 @@ const GuideDetails = ({guide}) => {
 
   const handleDownload = async () => {
     setIsDownloading(true);
-
+  
     try {
-      const response =await axios.get(`http://localhost:8080/guide/pdf/${guide.id}`);
-
+      const response = await axios.get(`http://localhost:8080/guide/pdf/${guide.id}`, {
+        responseType: 'blob', // Ajoutez cette option pour indiquer la réponse attendue est un blob
+      });
+  
       // Créer une URL de l'objet Blob pour le téléchargement
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-
+      const url = window.URL.createObjectURL(response.data);
+  
       // Créer un lien de téléchargement et cliquer dessus pour déclencher le téléchargement
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `${guide.title}.pdf`); // Nom du fichier de téléchargement
       document.body.appendChild(link);
       link.click();
-
+  
       // Supprimer l'URL de l'objet Blob après le téléchargement
       window.URL.revokeObjectURL(url);
-
+  
       setIsDownloading(false);
     } catch (error) {
       console.error('Erreur lors du téléchargement du fichier PDF :', error);
       setIsDownloading(false);
     }
   };
+  
 
   return (
     <div class="detail-guide">
