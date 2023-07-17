@@ -40,7 +40,7 @@ const Calendrier = () => {
       }, [user.id]);
 
   return (
-    <div>
+    <div class="w-100 row justify-content-center">
        <button className="btn btn-warning button-calendar" onClick={openModal}>
               <p>Voir mes prochaines formations</p>
             </button>
