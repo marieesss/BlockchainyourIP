@@ -86,10 +86,6 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
       document.addEventListener('keydown', handleUserActivity);
     }, []);
   
-    // useEffect(() => {
-    //   handleCloseModal();
-    //   setMsg("Vous avez dépassé 3 minutes")
-    // }, [num===0]);
 
 
   // remet le compte à rebours à 3 minutes si on touche au clavier

@@ -31,7 +31,6 @@ const Menu = () => {
       { !user ? <Link to={`/login`}> 
       <div class="link text-light">Connexion</div>
       </Link> : null }
-      {user ? <Calendrier/> : null}
       {user ?<div onClick={handleClick} class="text-light">Logout</div> :null}
       </div>
 

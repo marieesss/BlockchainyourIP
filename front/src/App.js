@@ -19,6 +19,7 @@ const App = () => {
     <BrowserRouter>
       <div>
         <Header />
+        {user ? <Calendrier/> : null}
         <div className="row justify-content-center layout">
           <div className="col-2">
             <Menu />
