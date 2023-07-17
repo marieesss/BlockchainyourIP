@@ -16,7 +16,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
   const [Msg, setMsg] = useState();
   const { user } = useContext(UserContext);
   const location= useLocation() 
-  const [num, setNum] = useState(null);
+  const [num, setNum] = useState(1);
   let intervalRef = useRef();
 
 
@@ -33,6 +33,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
         },
         { headers: { token: `Bearer ${user.token}` } }
       );
+      console.log(res.data)
       setDataInscription(res.data);
       setShowModal(true);
       setNum(180)
@@ -54,14 +55,14 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
 
 
   // envoie la confirmation de l'inscription
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     if(motivation.length>0){
       try {
         const res= axios.put(`http://localhost:8080/attendees/${dataInscription.id}/${user.id}`,{
           motivation: motivation,
         },
         { headers: { token: `Bearer ${user.token}` } })
+        console.log(res.data)
         setNum(0);
         setMotivation("")
         handleCloseModal();
@@ -85,10 +86,10 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
       document.addEventListener('keydown', handleUserActivity);
     }, []);
   
-    useEffect(() => {
-      handleCloseModal();
-      setMsg("Vous avez dépassé 3 minutes")
-    }, [num===0]);
+    // useEffect(() => {
+    //   handleCloseModal();
+    //   setMsg("Vous avez dépassé 3 minutes")
+    // }, [num===0]);
 
 
   // remet le compte à rebours à 3 minutes si on touche au clavier
@@ -100,6 +101,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
   const handleCloseModal = () => {
     setShowModal(false);
     setNum(0);
+    setMsg("Vous avez dépassé 3 minutes")
   };
 
 // Baisse le state 'num' de -1 
@@ -107,8 +109,13 @@ const decreaseNum = () => setNum((prev) => prev - 1);
 
 //  démarrer un intervalle qui appelle decreaseNum tout les 1seconde
 useEffect(() => {
-  intervalRef.current = setInterval(decreaseNum, 1000);
+  if(num !== 0){
+      intervalRef.current = setInterval(decreaseNum, 1000);
   return () => clearInterval(intervalRef.current);
+  }else{
+    handleCloseModal()
+  }
+
 }, []);
 
 
