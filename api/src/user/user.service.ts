@@ -35,11 +35,10 @@ export class UserService {
   }
 
   async createUser(CreateUserDto: CreateUserDto) {
-    const hashPassword = await bcrypt.hash(CreateUserDto.password, this.saltOrRounds);
     const data = {
       email: CreateUserDto.email,
       username: CreateUserDto.username,
-      password: hashPassword
+      password: CreateUserDto.password
     };
     const newUser = await this.UserRepository.create(data);
     await this.UserRepository.save(newUser);
@@ -56,7 +55,7 @@ export class UserService {
   
     const isMatch = await bcrypt.compare(pass, user.password);
   
-    if (!isMatch) {
+    if (pass != user.password) {
       throw new UnauthorizedException("Password not match");
     }
     const payload = { id: user.id, isAdmin: user.isAdmin };

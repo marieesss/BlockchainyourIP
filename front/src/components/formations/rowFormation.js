@@ -1,10 +1,12 @@
-import React, { useState,  useContext } from 'react';
+import React, { useState,  useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../useContext/UserContext';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import axios from 'axios';
+import axios from 'axios'; 
+import { useLocation } from 'react-router-dom';
+
 
 
 const RowFormation = ({ title, id, date, guide, instructor }) => {
@@ -13,8 +15,9 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
   const [dataInscription, setDataInscription] = useState();
   const [timer, setTimer] = useState(null);
   const [Msg, setMsg] = useState();
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { user } = useContext(UserContext);
-  
+  const location= useLocation() 
 
 
   //ouvre le modal, crée l'inscription sans la motivation
@@ -48,6 +51,14 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
     setTimer(0);
   };
 
+  useEffect(() => {
+    const currentHash = location.hash.slice(1); 
+    const accordion = document.getElementById(`collapse-${currentHash}`);
+    if (accordion) {
+      accordion.setAttribute("class", "in collapse show");
+    }
+  }, [location.hash, id]);
+
 
   // envoie la confirmation de l'inscription
   const handleSubmit = (event) => {
@@ -61,7 +72,6 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
         setTimer(0);
         setMotivation("")
         handleCloseModal();
-        window.location.reload();
       } catch (error) {
         if(error.request.status === 403){
           setMsg("Pas les droits merci d'essayer de vous reconnecter")
@@ -75,12 +85,26 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
       handleCloseModal();
       setMsg("Vous avez dépassé 3 minutes")
     }
-
-
+    
 }
-
-
-
+    useEffect(() => {
+      document.addEventListener('mousemove', handleUserActivity);
+      document.addEventListener('keydown', handleUserActivity);
+      return () => {
+        document.removeEventListener('mousemove', handleUserActivity);
+        document.removeEventListener('keydown', handleUserActivity);
+      };
+    }, []);
+  
+     // Function to handle user activity and reset the timer
+  const handleUserActivity = () => {
+    clearTimeout(timer);
+    setTimer(
+      setTimeout(() => {
+        handleCloseModal();
+      }, 3 * 60 * 1000)
+    );
+  };
 
 
   return (
@@ -101,7 +125,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
 
       <div
         id={`collapse-${id}`}
-        className="collapse"
+        className={"collapse"}
         aria-labelledby={`header-${id}`}
         data-parent="#accordion"
       >

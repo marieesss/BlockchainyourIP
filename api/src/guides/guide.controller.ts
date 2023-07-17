@@ -1,7 +1,10 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UseGuards, Headers } from '@nestjs/common';
 import Guide from './guide.entity';
 import { GuideService } from './guide.service';
 import { AdminGuard } from 'src/Auth.service';
+import { Response } from 'express';
+
+
 
 export class CreateGuideDto {
     title: string;
@@ -32,4 +35,21 @@ export class GuideController {
     const newUser = await this.GuideService.createGuide(CreateUserDto);
     return newUser;
   }
+
+  @Get('pdf/:id')
+  async generatePDFById(@Param('id') id: number, @Res() res: Response) {
+    const buffer = await this.GuideService.genererPDF(id);
+
+    res.set({
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition': `attachment; filename="${buffer.guide.title}.pdf"`,
+      'Content-Length': buffer.pdfBuffer.length.toString(),
+    });
+  
+  
+
+    res.end(buffer.pdfBuffer);
+  }
+  
+  
 }

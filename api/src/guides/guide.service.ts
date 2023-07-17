@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import Guide from './guide.entity';
 import { CreateGuideDto } from './guide.controller';
 import { Injectable } from '@nestjs/common';
+const PDFDocument = require('pdfkit');
 
 @Injectable()
 export class GuideService {
@@ -22,13 +23,13 @@ export class GuideService {
 
 
   async getGuideById(id: number) {
-    const user = await this.GuideRepository.findOne({
-      where: {
-        id: id,
-      },
-    });
-    if (user) {
-      return user;
+    const guide = await this.GuideRepository.createQueryBuilder('guides')
+    .leftJoinAndSelect('guides.formations', 'formation')
+    .where('guides.id = :id', { id })
+    .getOne();
+
+    if (guide) {
+      return guide;
     }
     throw new NotFoundException('Could not find the guide');
   }
@@ -41,5 +42,47 @@ export class GuideService {
     await this.GuideRepository.save(newGuide);
     return newGuide;
   }
+
+  async genererPDF(id: number)
+  {
+    const guide = await this.getGuideById(id);
+
+      const pdfBuffer: Buffer = await new Promise( resolve => {
+        const doc =  new PDFDocument(
+          {
+            size: "LETTER",
+            bufferPages: true
+          })
+
+          doc.fontSize(18).text(guide.title);
+          doc.fontSize(12).text(`Author: ${guide.author}`);
+          doc.fontSize(12).text(`Summary: ${guide.summary}`);
+          doc.fontSize(12).text(`Rating: ${guide.rating}`);
+          doc.moveDown()
+          doc.fontSize(12).text('Formations:');
+
+          guide.formations.forEach((formation) => {
+            doc.text(['- ' + formation.name]);
+            doc.text(`date : ${formation.name}`);
+            doc.moveDown()
+          });
+
+
+          const buffer = []
+          doc.on('data', buffer.push.bind(buffer))
+          doc.on('end', () => {
+              const data = Buffer.concat(buffer)
+              resolve(data)
+          })
+          doc.end()
+
+
+      })
+
+      return {pdfBuffer, guide};
+    
+  }
+  
+  
   
 }
