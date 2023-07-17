@@ -65,6 +65,7 @@ async getAllFormationsByUserId(userId: number) {
   .leftJoinAndSelect('rl.user', 'user')
   // condition, que retrouver les formations où l'utilisateur est inscrit
   .where('rl.user_id = :userId', { userId })
+  .where('rl.valide = true')
   //récupérer plusieurs 
   .getMany();
 
