@@ -44,7 +44,7 @@ const GuideDetails = ({guide}) => {
       {guide.formations ?
 
         guide.formations.map((formation) =>(
-        <Link to={`/formation#header-${formation.id}`}>
+        <Link to={`/formation#${formation.id}`}>
         <li>{formation.name}</li>
         </Link>
         ))

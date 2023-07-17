@@ -13,18 +13,19 @@ const [dataFiltre, setDataFiltre] = useState();
 const { user } = useContext(UserContext);
 
 //récupère toute les formations
-useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('http://localhost:8080/formation');
-        setData(res.data);
-      } catch (error) {
-        console.log('Erreur');
-      }
-    };
+const fetchData = async () => {
+  try {
+    const res = await axios.get('http://localhost:8080/formation');
+    setData(res.data);
+  } catch (error) {
+    console.log('Erreur');
+  }
+};
 
-    fetchData();
-});
+
+useEffect(()=>{
+  fetchData();
+})
 
 
 //filtre en fonction du nom
@@ -64,12 +65,12 @@ const searchItemsDate = (searchValue) => {
       <div id="accordion">
         { dataFiltre &&  dataFiltre.length > 0 ? dataFiltre.map((formation) => (
           <div key={formation.id}>
-            <RowFormation title={formation.name} id={formation.id} date={formation.date} guide={formation.guides} instructor={formation.instructor} />
+            <RowFormation title={formation.name} id={formation.id} date={formation.date} guide={formation.guides} instructor={formation.instructor} fetchData={fetchData}/>
           </div>
         )) : 
         data ? data.map((formation) => (
           <div key={formation.id}>
-            <RowFormation title={formation.name} id={formation.id} date={formation.date} guide={formation.guides} instructor={formation.instructor} />
+            <RowFormation title={formation.name} id={formation.id} date={formation.date} guide={formation.guides} instructor={formation.instructor} fetchData={fetchData}/>
           </div>
         )) 
         : null}
