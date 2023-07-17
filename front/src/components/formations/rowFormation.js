@@ -1,4 +1,4 @@
-import React, { useState,  useContext, useEffect } from 'react';
+import React, { useState,  useContext, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../useContext/UserContext';
 import Button from 'react-bootstrap/Button';
@@ -13,11 +13,11 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
   const [showModal, setShowModal] = useState(false);
   const [motivation, setMotivation] = useState('');
   const [dataInscription, setDataInscription] = useState();
-  const [timer, setTimer] = useState(null);
   const [Msg, setMsg] = useState();
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { user } = useContext(UserContext);
   const location= useLocation() 
+  const [num, setNum] = useState(null);
+  let intervalRef = useRef();
 
 
   //ouvre le modal, crée l'inscription sans la motivation
@@ -35,24 +35,17 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
       );
       setDataInscription(res.data);
       setShowModal(true);
-      setTimer(
-        setTimeout(() => {
-          handleCloseModal();
-        }, 3 * 60 * 1000)
-      );
+      setNum(180)
     } catch (error) {
       console.log("erreur");
     }
   };
-  
-// met le timer à 0 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setTimer(0);
-  };
 
+  
   useEffect(() => {
+    // récupère l'id de la formation dans l'url 
     const currentHash = location.hash.slice(1); 
+    // ouvre l'accordéon avec l'id correspondant
     const accordion = document.getElementById(`collapse-${currentHash}`);
     if (accordion) {
       accordion.setAttribute("class", "in collapse show");
@@ -69,7 +62,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
           motivation: motivation,
         },
         { headers: { token: `Bearer ${user.token}` } })
-        setTimer(0);
+        setNum(0);
         setMotivation("")
         handleCloseModal();
       } catch (error) {
@@ -87,24 +80,36 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
     }
     
 }
+// détecte les touches de clavier pressées et appelle la fonction handleUserActivity
     useEffect(() => {
-      document.addEventListener('mousemove', handleUserActivity);
       document.addEventListener('keydown', handleUserActivity);
-      return () => {
-        document.removeEventListener('mousemove', handleUserActivity);
-        document.removeEventListener('keydown', handleUserActivity);
-      };
     }, []);
   
-     // Function to handle user activity and reset the timer
+    useEffect(() => {
+      handleCloseModal();
+      setMsg("Vous avez dépassé 3 minutes")
+    }, [num===0]);
+
+
+  // remet le compte à rebours à 3 minutes si on touche au clavier
   const handleUserActivity = () => {
-    clearTimeout(timer);
-    setTimer(
-      setTimeout(() => {
-        handleCloseModal();
-      }, 3 * 60 * 1000)
-    );
+    setNum(180)
   };
+
+  // met le timer à 0 
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setNum(0);
+  };
+
+// Baisse le state 'num' de -1 
+const decreaseNum = () => setNum((prev) => prev - 1);
+
+//  démarrer un intervalle qui appelle decreaseNum tout les 1seconde
+useEffect(() => {
+  intervalRef.current = setInterval(decreaseNum, 1000);
+  return () => clearInterval(intervalRef.current);
+}, []);
 
 
   return (
@@ -149,7 +154,7 @@ const RowFormation = ({ title, id, date, guide, instructor }) => {
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Votre motivation en trois minutes</Modal.Title>
+          <Modal.Title>Votre motivation en trois minutes, il vout reste {num} secondes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
